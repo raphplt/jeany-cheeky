@@ -1,5 +1,6 @@
 "use client";
 
+import Header from "@/components/header";
 import QrReader from "@/components/scanner";
 import { useState } from "react";
 
@@ -8,6 +9,7 @@ export default function Index() {
 
 	return (
 		<main className="min-h-screen">
+			<Header />
 			<div className="flex items-center flex-col justify-center">
 				<h1 className="text-4xl font-bold my-5">Jeany Cheeky</h1>
 				<QrReader

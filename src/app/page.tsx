@@ -1,29 +1,23 @@
 "use client";
 
-import Header from "@/components/header";
-import QrReader from "@/components/scanner";
-import { useState } from "react";
+import { useAuthState } from "react-firebase-hooks/auth";
+import Header from "../components/Header";
+import { auth } from "@/utils/firebase";
 
 export default function Index() {
-	const [scannedResult, setScannedResult] = useState<string | undefined>("");
+	const [user] = useAuthState(auth);
 
 	return (
 		<main className="min-h-screen">
 			<Header />
 			<div className="flex items-center flex-col justify-center">
-				<h1 className="text-4xl font-bold my-5">Jeany Cheeky</h1>
-				<QrReader
-					scannedResult={scannedResult}
-					setScannedResult={setScannedResult}
-				/>
+				<h1 className="text-4xl font-bold my-5">Home</h1>
+				{user ? (
+					<p className="text-2xl font-bold my-5">Welcome {user.email}</p>
+				) : (
+					<p className="text-2xl font-bold my-5">Welcome Guest</p>
+				)}
 			</div>
-
-			{scannedResult && (
-				<div className="flex items-center flex-col justify-center">
-					<h1 className="text-4xl font-bold my-5">Result</h1>
-					<p className="text-2xl font-bold my-5">{scannedResult}</p>
-				</div>
-			)}
 		</main>
 	);
 }

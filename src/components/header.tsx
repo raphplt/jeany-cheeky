@@ -2,6 +2,8 @@
 "use client";
 
 import { auth } from "@/utils/firebase";
+import { db } from "@/utils/firebase";
+import { doc, getDoc } from "firebase/firestore";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
@@ -11,6 +13,7 @@ export default function Header() {
 	const [user] = useAuthState(auth);
 	const [isAdmin, setIsAdmin] = useState(false);
 	const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
+	const [username, setUsername] = useState("");
 
 	useEffect(() => {
 		if (user) {
@@ -21,8 +24,19 @@ export default function Header() {
 					setIsAdmin(false);
 				}
 			});
+
+			// Récupérer le username de l'utilisateur connecté
+			const userRef = doc(db, "users", user.uid);
+			getDoc(userRef).then((docSnap) => {
+				if (docSnap.exists()) {
+					setUsername(docSnap.data().username);
+				} else {
+					console.log("No such document!");
+				}
+			});
 		} else {
 			setIsAdmin(false);
+			setUsername("");
 		}
 	}, [user]);
 
@@ -32,18 +46,18 @@ export default function Header() {
 	};
 
 	return (
-		<header className="bg-primary text-white p-3 px-8 flex items-center justify-between">
+		<header className="bg-primary text-white p-3 flex items-center justify-between px-20">
 			<Link
 				className="text-xl font-bold flex items-center justify-center gap-3 hover:scale-105"
 				href="/"
 			>
-				<img src="/logo.png" alt="Jeany Cheeky" className="w-12 h-12 " />
+				<img src="/logo.png" alt="Jeany Cheeky" className="w-12 h-12" />
 				Jeany Cheeky
 			</Link>
-			<div className="flex items-center justify-center gap-5 relative">
+			<div className="flex items-center justify-center gap-8 relative">
 				{user ? (
 					<>
-						<Link href="/" className="text-lg font-semibold hover:underline">
+						<Link href="/scan" className="text-lg font-semibold hover:underline">
 							Scan
 						</Link>
 						{isAdmin && (
@@ -57,8 +71,8 @@ export default function Header() {
 							onMouseLeave={() => setIsAccountMenuOpen(false)}
 						>
 							<button className="text-lg font-semibold hover:underline flex gap-2 items-center">
-								<Icon icon="akar-icons:chevron-down" />
-								Mon compte
+								<Icon icon="codicon:account" className="text-xl" />
+								{username || "Mon compte"}
 							</button>
 							{isAccountMenuOpen && (
 								<div className="absolute right-0  w-48 bg-white text-black rounded-lg shadow-lg z-50">
@@ -71,9 +85,9 @@ export default function Header() {
 									</Link>
 									<button
 										onClick={handleSignOut}
-										className="block w-full text-left px-4 py-2 hover:bg-gray-200 rounded-lg"
+										className="block w-full text-left px-4 py-2 hover:bg-red-200 rounded-lg"
 									>
-										Logout
+										Déconnexion
 									</button>
 								</div>
 							)}

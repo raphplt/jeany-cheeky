@@ -5,7 +5,7 @@ import { auth } from "@/utils/firebase";
 import { useEffect } from "react";
 import { redirect } from "next/navigation";
 
-const ProtectedRoute = ({ children }: any) => {
+const AdminRoutes = ({ children }: any) => {
 	const [user, loading] = useAuthState(auth);
 
 	useEffect(() => {
@@ -21,4 +21,4 @@ const ProtectedRoute = ({ children }: any) => {
 	return children;
 };
 
-export default ProtectedRoute;
+export default AdminRoutes;

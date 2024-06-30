@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { auth } from "@/utils/firebase";
+import { auth, db } from "@/utils/firebase";
 import { useAuthState } from "react-firebase-hooks/auth";
 import {
 	signInWithEmailAndPassword,
@@ -10,16 +10,29 @@ import {
 } from "firebase/auth";
 import { redirect } from "next/navigation";
 import Header from "@/components/Header";
+import { doc, setDoc } from "firebase/firestore";
 
 const LoginPage = () => {
 	const [user] = useAuthState(auth);
+	const [username, setUsername] = useState("");
 	const [email, setEmail] = useState("");
 	const [password, setPassword] = useState("");
 	const [error, setError] = useState("");
 
 	const handleEmailLogin = async () => {
 		try {
-			await signInWithEmailAndPassword(auth, email, password);
+			const userCredential = await signInWithEmailAndPassword(
+				auth,
+				email,
+				password
+			);
+			const user = userCredential.user;
+			await setDoc(doc(db, "users", user.uid), {
+				username,
+				email,
+				uid: user.uid,
+				admin: false,
+			});
 			redirect("/");
 		} catch (err: any) {
 			setError(err.message);
@@ -29,7 +42,15 @@ const LoginPage = () => {
 	const handleGoogleLogin = async () => {
 		const provider = new GoogleAuthProvider();
 		try {
-			await signInWithPopup(auth, provider);
+			const userCredential = await signInWithPopup(auth, provider);
+			const user = userCredential.user;
+			await setDoc(doc(db, "users", user.uid), {
+				username: user.displayName,
+				email: user.email,
+				uid: user.uid,
+				admin: false,
+			});
+
 			redirect("/");
 		} catch (err: any) {
 			setError(err.message);
@@ -43,30 +64,45 @@ const LoginPage = () => {
 	return (
 		<>
 			<Header />
-			<div className="min-h-screen flex flex-col items-center justify-center">
-				<h1 className="text-2xl font-bold mb-5">Login</h1>
-				<div className="flex flex-col gap-3">
+			<div className="min-h-[80vh] flex flex-col items-center justify-center">
+				<h1 className="text-2xl font-bold mb-5">Connexion</h1>
+				<div className="flex flex-col gap-3 w-1/6">
+					<input
+						type="text"
+						value={username}
+						onChange={(e) => setUsername(e.target.value)}
+						placeholder="Nom d'utilisateur"
+						className="p-2 border-2 border-primary rounded-lg"
+					/>
 					<input
 						type="email"
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
 						placeholder="Email"
-						className="p-2 border-2 border-gray-800"
+						className="p-2 border-2 border-primary rounded-lg"
 					/>
 					<input
 						type="password"
 						value={password}
 						onChange={(e) => setPassword(e.target.value)}
-						placeholder="Password"
-						className="p-2 border-2 border-gray-800"
+						placeholder="Mot de passe"
+						className="p-2 border-2 border-primary rounded-lg"
 					/>
-					<button onClick={handleEmailLogin} className="p-2 bg-gray-800 text-white">
-						Login with Email
+					<button
+						onClick={handleEmailLogin}
+						className="p-2 bg-primary text-white hover:bg-secondary rounded-lg"
+					>
+						Connexion par Email
 					</button>
-					<button onClick={handleGoogleLogin} className="p-2 bg-blue-600 text-white">
-						Login with Google
+					<button
+						onClick={handleGoogleLogin}
+						className="p-2 bg-blue-600 text-white hover:bg-blue-700 rounded-lg"
+					>
+						Connexion avec Google
 					</button>
-					{error && <p className="text-red-500">{error}</p>}
+					{error && (
+						<p className="text-center text-tomate">Erreur d&apos;authentification</p>
+					)}
 				</div>
 			</div>
 		</>

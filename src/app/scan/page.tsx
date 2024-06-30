@@ -1,6 +1,7 @@
 "use client";
 
 import Header from "@/components/Header";
+import ProtectedRoute from "@/components/ProtectedRoutes";
 import QrReader from "@/components/Scanner";
 import { redirect } from "next/navigation";
 
@@ -16,22 +17,24 @@ export default function Scan() {
 	}, [scannedResult]);
 
 	return (
-		<main className="min-h-screen">
-			<Header />
-			<div className="flex items-center flex-col justify-center">
-				<h1 className="text-4xl font-bold my-5">Scan QR Code</h1>
-				<QrReader
-					scannedResult={scannedResult}
-					setScannedResult={setScannedResult}
-				/>
-			</div>
-
-			{scannedResult && (
+		<ProtectedRoute>
+			<main className="min-h-screen">
+				<Header />
 				<div className="flex items-center flex-col justify-center">
-					<h1 className="text-4xl font-bold my-5">Result</h1>
-					<p className="text-2xl font-bold my-5">{scannedResult}</p>
+					<h1 className="text-4xl font-bold my-5">Scan QR Code</h1>
+					<QrReader
+						scannedResult={scannedResult}
+						setScannedResult={setScannedResult}
+					/>
 				</div>
-			)}
-		</main>
+
+				{scannedResult && (
+					<div className="flex items-center flex-col justify-center">
+						<h1 className="text-4xl font-bold my-5">Result</h1>
+						<p className="text-2xl font-bold my-5">{scannedResult}</p>
+					</div>
+				)}
+			</main>
+		</ProtectedRoute>
 	);
 }

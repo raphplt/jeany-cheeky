@@ -15,7 +15,6 @@ export default function QrCodeCard({ qrCode }: any) {
 				<h2 className="text-xl font-bold">{qrCode.title}</h2>
 				<p>{qrCode.description}</p>
 			</div>
-			{/* Afficher l'image du QR code si disponible */}
 			{qrCode.qrImageUrl && (
 				<img src={qrCode.qrImageUrl} alt={qrCode.title} className="w-1/6" />
 			)}

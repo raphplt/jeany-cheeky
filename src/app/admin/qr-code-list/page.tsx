@@ -6,6 +6,7 @@ import { collection, getDocs } from "firebase/firestore";
 import { db } from "@/utils/firebase";
 import QrCodeCard from "@/components/admin/QrCodeCard";
 import { Icon } from "@iconify/react";
+import Link from "next/link";
 
 export default function QrCodelist() {
 	const [qrCodes, setQrCodes]: any = useState([]);
@@ -37,9 +38,15 @@ export default function QrCodelist() {
 	return (
 		<main className="min-h-screen">
 			<Header />
+			<Link
+				href="/admin"
+				className="w-10/12 text-primary mx-auto font-semibold block my-3"
+			>
+				Retour
+			</Link>
 			<div className="flex items-center justify-center flex-col gap-3">
-				<h1 className="text-2xl font-bold my-5">Liste des QR Code</h1>
-				<div className="flex flex-col gap-3">
+				<h1 className="text-2xl font-bold my-6">Liste des QR Code</h1>
+				<div className="flex flex-col gap-3 w-1/3 py-5">
 					{qrCodes.map((qrCode: any) => (
 						<QrCodeCard key={qrCode.id} qrCode={qrCode} />
 					))}

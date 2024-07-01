@@ -76,14 +76,14 @@ export default function AccountPage() {
 				<div className="flex items-center gap-5">
 					<button
 						onClick={() => auth.signOut()}
-						className="bg-primary text-white py-2 px-4 rounded-lg"
+						className="bg-primary text-white py-2 px-4 rounded-lg hover:bg-secondary"
 					>
 						Déconnexion
 					</button>
 
 					<button
 						onClick={() => setConfirmDelete(true)}
-						className="bg-tomate text-white py-2 px-4 rounded-lg"
+						className="bg-tomate text-white py-2 px-4 rounded-lg hover:bg-red-600"
 					>
 						Supprimer mon compte
 					</button>

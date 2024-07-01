@@ -8,6 +8,8 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Icon } from "@iconify/react";
+import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 
 export default function Header() {
 	const [user] = useAuthState(auth);
@@ -46,7 +48,7 @@ export default function Header() {
 	};
 
 	return (
-		<header className="bg-primary text-white p-3 flex items-center justify-between px-20">
+		<header className="bg-transparent fixed text-white p-3 flex items-center justify-between px-20 top-0 w-full ">
 			<Link
 				className="text-xl font-bold flex items-center justify-center gap-3 hover:scale-105"
 				href="/"
@@ -59,6 +61,9 @@ export default function Header() {
 					<>
 						<Link href="/scan" className="text-lg font-semibold hover:underline">
 							Scan
+						</Link>
+						<Link href="/galerie" className="text-lg font-semibold hover:underline">
+							Galerie
 						</Link>
 						{isAdmin && (
 							<Link href="/admin" className="text-lg font-semibold hover:underline">
@@ -94,9 +99,20 @@ export default function Header() {
 						</div>
 					</>
 				) : (
-					<Link href="/auth/login" className="text-lg font-semibold hover:underline">
-						Login
-					</Link>
+					<>
+						<Link
+							href="/auth/login"
+							className="text-lg font-semibold hover:underline"
+						>
+							Connexion
+						</Link>
+						<Link
+							href="/auth/register"
+							className="text-lg font-semibold hover:underline"
+						>
+							Inscription
+						</Link>
+					</>
 				)}
 			</div>
 		</header>

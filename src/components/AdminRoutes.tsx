@@ -12,6 +12,13 @@ const AdminRoutes = ({ children }: any) => {
 		if (!loading && !user) {
 			redirect("auth/login");
 		}
+		if (user) {
+			user.getIdTokenResult().then((idTokenResult) => {
+				if (!idTokenResult.claims.admin) {
+					redirect("/");
+				}
+			});
+		}
 	}, [user, loading]);
 
 	if (loading || !user) {

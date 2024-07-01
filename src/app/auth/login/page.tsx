@@ -31,7 +31,6 @@ const LoginPage = () => {
 				username,
 				email,
 				uid: user.uid,
-				admin: false,
 			});
 			redirect("/");
 		} catch (err: any) {
@@ -48,7 +47,6 @@ const LoginPage = () => {
 				username: user.displayName,
 				email: user.email,
 				uid: user.uid,
-				admin: false,
 			});
 
 			redirect("/");
@@ -67,13 +65,7 @@ const LoginPage = () => {
 			<div className="min-h-[80vh] flex flex-col items-center justify-center">
 				<h1 className="text-2xl font-bold mb-5">Connexion</h1>
 				<div className="flex flex-col gap-3 w-1/6">
-					<input
-						type="text"
-						value={username}
-						onChange={(e) => setUsername(e.target.value)}
-						placeholder="Nom d'utilisateur"
-						className="p-2 border-2 border-primary rounded-lg"
-					/>
+
 					<input
 						type="email"
 						value={email}

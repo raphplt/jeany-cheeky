@@ -23,7 +23,6 @@ const AdminPage = () => {
 
 	return (
 		<div>
-			<Header />
 			<Link
 				href="/admin"
 				className="w-10/12 text-primary mx-auto font-semibold block my-3"

@@ -107,7 +107,6 @@ function App() {
 
 	return (
 		<main className="min-h-screen">
-			<Header />
 			<div className="flex items-center justify-center flex-col gap-3">
 				<h1 className="text-2xl font-bold my-8 py-4">Génération de QR Code</h1>
 				<div className="flex flex-col gap-3 w-1/5 py-5">

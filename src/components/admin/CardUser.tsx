@@ -1,9 +1,8 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
-import { collection, getDocs, deleteDoc, doc } from "firebase/firestore";
+import React from "react";
+import { deleteDoc, doc } from "firebase/firestore";
 import { db } from "@/utils/firebase";
-import Header from "@/components/Header";
 
 export default function CardUser({ user, users, setUsers }: any) {
 	const deleteUser = async (userId: string) => {

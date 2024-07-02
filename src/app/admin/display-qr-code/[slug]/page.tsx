@@ -2,9 +2,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
-import { getFirestore, doc, getDoc } from "firebase/firestore";
-import QrCodeCard from "@/components/admin/QrCodeCard";
-import Header from "@/components/Header";
+import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/utils/firebase";
 import Link from "next/link";
 
@@ -37,7 +35,6 @@ export default function DisplayQrCode({
 
 	return (
 		<main className="min-h-screen">
-			<Header />
 			<Link
 				href="/admin/qr-code-list"
 				className="w-10/12 text-primary mx-auto font-semibold block my-3"

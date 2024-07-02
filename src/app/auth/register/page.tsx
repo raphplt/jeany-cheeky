@@ -61,10 +61,9 @@ export default function Register() {
 
 	return (
 		<>
-			<Header />
 			<div className="min-h-[80vh] flex flex-col items-center justify-center">
 				<h1 className="text-2xl font-bold mb-5">Inscription</h1>
-				<div className="flex flex-col gap-3 w-1/6">
+				<div className="flex flex-col gap-3 w-3/4 sm:w-1/6">
 					<input
 						type="text"
 						value={username}

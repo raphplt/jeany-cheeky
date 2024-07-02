@@ -8,7 +8,6 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 import { Icon } from "@iconify/react";
-import { useRouter } from "next/router";
 import { usePathname } from "next/navigation";
 
 export default function Header() {
@@ -16,6 +15,7 @@ export default function Header() {
 	const [isAdmin, setIsAdmin] = useState(false);
 	const [isAccountMenuOpen, setIsAccountMenuOpen] = useState(false);
 	const [username, setUsername] = useState("");
+	const pathname = usePathname();
 
 	useEffect(() => {
 		if (user) {
@@ -27,7 +27,6 @@ export default function Header() {
 				}
 			});
 
-			// Récupérer le username de l'utilisateur connecté
 			const userRef = doc(db, "users", user.uid);
 			getDoc(userRef).then((docSnap) => {
 				if (docSnap.exists()) {
@@ -48,13 +47,17 @@ export default function Header() {
 	};
 
 	return (
-		<header className="bg-transparent fixed text-white p-3 flex items-center justify-between px-20 top-0 w-full ">
+		<header
+			className={`fixed text-white p-3 flex items-center justify-between h-16 px-3 md:px-20 top-0 w-full ${
+				pathname === "/" ? "bg-transparent" : "bg-primary"
+			}`}
+		>
 			<Link
 				className="text-xl font-bold flex items-center justify-center gap-3 hover:scale-105"
 				href="/"
 			>
 				<img src="/logo.png" alt="Jeany Cheeky" className="w-12 h-12" />
-				Jeany Cheeky
+				<p className="hidden sm:block">Jeany Cheeky</p>
 			</Link>
 			<div className="flex items-center justify-center gap-8 relative">
 				{user ? (

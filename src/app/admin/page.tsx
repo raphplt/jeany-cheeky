@@ -6,7 +6,6 @@ import CardAdmin from "@/components/admin/CardAdmin";
 export default function AdminPage() {
 	return (
 		<div>
-			<Header />
 			<h1 className="text-2xl text-primary font-semibold py-12 text-center">
 				Administration
 			</h1>

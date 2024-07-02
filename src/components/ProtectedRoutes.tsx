@@ -10,7 +10,7 @@ const ProtectedRoute = ({ children }: any) => {
 
 	useEffect(() => {
 		if (!loading && !user) {
-			redirect("auth/login");
+			redirect("/auth/login");
 		}
 	}, [user, loading]);
 

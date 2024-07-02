@@ -55,7 +55,6 @@ export default function AccountPage() {
 
 	return (
 		<ProtectedRoute>
-			<Header />
 			<div className="flex flex-col w-1/2 mx-auto gap-5 py-10">
 				<h1 className=" text-2xl font-semibold text-primary">Mon compte</h1>
 				<h2 className="text-lg font-semibold text-primary">

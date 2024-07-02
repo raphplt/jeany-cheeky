@@ -2,92 +2,93 @@
 
 import { useEffect, useRef, useState } from "react";
 import QrScanner from "qr-scanner";
+import { redirect } from "next/navigation";
+import Link from "next/link";
+
+interface QrReaderProps {
+	scannedResult: string | undefined;
+	setScannedResult: (result: string | undefined) => void;
+}
 
 export default function QrReader({
 	scannedResult,
 	setScannedResult,
-}: {
-	scannedResult: string | undefined;
-	setScannedResult: (result: string | undefined) => void;
-}) {
+}: QrReaderProps) {
 	const scanner = useRef<QrScanner>();
 	const videoEl = useRef<HTMLVideoElement>(null);
 	const qrBoxEl = useRef<HTMLDivElement>(null);
 	const [qrOn, setQrOn] = useState<boolean>(true);
 
-	// Result
-
-	// Success
-	const onScanSuccess = (result: QrScanner.ScanResult) => {
-		console.log(result);
-		setScannedResult(result?.data);
-	};
-
-	// Fail
 	const onScanFail = (err: string | Error) => {
-		console.log(err);
+		// console.error(err);
 	};
 
 	useEffect(() => {
-		if (videoEl?.current && !scanner.current) {
-			scanner.current = new QrScanner(videoEl?.current, onScanSuccess, {
-				onDecodeError: onScanFail,
-				preferredCamera: "environment",
-				highlightScanRegion: true,
-				highlightCodeOutline: true,
-				overlay: qrBoxEl?.current || undefined,
+		if (!videoEl.current) return;
+
+		const onScanSuccess = (result: QrScanner.ScanResult) => {
+			console.log(result);
+			setScannedResult(result?.data);
+		};
+		const currentScanner = new QrScanner(videoEl.current, onScanSuccess, {
+			onDecodeError: onScanFail,
+			preferredCamera: "environment",
+			highlightScanRegion: true,
+			highlightCodeOutline: true,
+			overlay: qrBoxEl.current || undefined,
+		});
+
+		scanner.current = currentScanner;
+
+		currentScanner
+			.start()
+			.then(() => setQrOn(true))
+			.catch((err) => {
+				console.error(err);
+				setQrOn(false);
 			});
 
-			scanner?.current
-				?.start()
-				.then(() => setQrOn(true))
-				.catch((err) => {
-					if (err) setQrOn(false);
-				});
-		}
-
 		return () => {
-			if (!videoEl?.current) {
-				scanner?.current?.stop();
-			}
+			currentScanner.stop();
 		};
-	}, []);
+	}, [setScannedResult]);
 
 	useEffect(() => {
-		if (!qrOn)
+		if (!qrOn) {
 			alert(
-				"Camera is blocked or not accessible. Please allow camera in your browser permissions and Reload."
+				"La caméra n'est pas disponible. Veuillez vérifier si elle est bien connectée."
 			);
+		}
 	}, [qrOn]);
+
+	function validateScan() {
+		alert("validateScan");
+		console.log("scannedResult", scannedResult);
+		// if (!scannedResult || typeof scannedResult !== "string") {
+		// 	alert("Aucun résultat scanné");
+		// 	return;
+		// }
+
+		redirect("/auth/login");
+		console.log("dsqdsqdsq", scannedResult);
+	}
 
 	return (
 		<>
 			<video ref={videoEl} className="object-cover w-80 h-80 rounded-xl"></video>
 			<div
 				ref={qrBoxEl}
-				className="absolute flex items-center justify-center w-80 h-80 "
-				style={{
-					top: "50%",
-					left: "50%",
-					transform: "translate(-50%, -50%)",
-				}}
-			>
-				{/* <div className="w-32 h-32 border-2 border-white border-dashed"></div> */}
-			</div>
-
-			{scannedResult && (
-				<p
-					style={{
-						position: "absolute",
-						top: 0,
-						left: 0,
-						zIndex: 99999,
-						color: "white",
-					}}
-				>
-					Scanned Result: {scannedResult}
-				</p>
-			)}
+				className="absolute flex items-center justify-center w-80 h-80"
+				style={{ top: "50%", left: "50%", transform: "translate(-50%, -50%)" }}
+			></div>
+			{scannedResult ? (
+				<Link
+					href={"/result/" + scannedResult}
+					className="rounded-full bg-red-600 h-16 w-16 mt-12 drop-shadow-lg"
+				></Link>
+			) : (
+				<span className="rounded-full bg-red-500 h-16 w-16 mt-12 drop-shadow-lg"></span>
+			)}{" "}
 		</>
 	);
 }

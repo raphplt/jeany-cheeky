@@ -36,22 +36,23 @@ export default function QrCodelist() {
 	}
 
 	return (
-		<main className="min-h-screen">
-			<Header />
-			<Link
-				href="/admin"
-				className="w-10/12 text-primary mx-auto font-semibold block my-3"
-			>
-				Retour
-			</Link>
-			<div className="flex items-center justify-center flex-col gap-3">
-				<h1 className="text-2xl font-bold my-6">Liste des QR Code</h1>
-				<div className="flex flex-col gap-3 w-1/3 py-5">
-					{qrCodes.map((qrCode: any) => (
-						<QrCodeCard key={qrCode.id} qrCode={qrCode} />
-					))}
+		<>
+			<main className="min-h-screen mt-12">
+				<Link
+					href="/admin"
+					className="w-10/12 text-primary mx-auto font-semibold block my-3"
+				>
+					Retour
+				</Link>
+				<div className="flex items-center justify-center flex-col gap-3">
+					<h1 className="text-2xl font-bold my-6">Liste des QR Code</h1>
+					<div className="flex flex-col gap-3 w-1/3 py-5">
+						{qrCodes.map((qrCode: any) => (
+							<QrCodeCard key={qrCode.id} qrCode={qrCode} />
+						))}
+					</div>
 				</div>
-			</div>
-		</main>
+			</main>
+		</>
 	);
 }

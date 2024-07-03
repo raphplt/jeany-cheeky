@@ -72,7 +72,7 @@ export default function Galerie() {
 					Galerie
 				</h1>
 				<p className="text-center pb-4 text-lg text-secondary font-semibold">
-					{galleryItems[0].qrDetails.length} qr-codes scannés
+					{galleryItems[0].qrDetails.length} Qr-codes scannés
 				</p>
 				{galleryItems.map((item) => (
 					<div key={item.id} className="w-full sm:w-1/3 mx-auto">

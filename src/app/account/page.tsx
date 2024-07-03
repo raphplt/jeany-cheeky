@@ -68,9 +68,6 @@ export default function AccountPage() {
 						<strong>Email:</strong> {userInfos?.email}
 					</p>
 				</div>
-				<div>
-					<h1 className="text-lg font-semibold text-primary">Mes QR Codes</h1>
-				</div>
 				<div className="flex items-center gap-5">
 					<button
 						onClick={signOut}

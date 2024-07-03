@@ -89,7 +89,7 @@ export default function Header() {
 										className="block px-4 py-2 hover:bg-gray-200 rounded-lg"
 										onClick={() => setIsAccountMenuOpen(false)}
 									>
-										Profile
+										Profil
 									</Link>
 									<button
 										onClick={handleSignOut}

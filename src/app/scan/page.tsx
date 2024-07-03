@@ -1,6 +1,5 @@
 "use client";
 
-import Header from "@/components/Header";
 import ProtectedRoute from "@/components/ProtectedRoutes";
 import QrReader from "@/components/Scanner";
 import { redirect } from "next/navigation";

@@ -9,7 +9,6 @@ import {
 	GoogleAuthProvider,
 } from "firebase/auth";
 import { redirect } from "next/navigation";
-import Header from "@/components/Header";
 import { doc, setDoc } from "firebase/firestore";
 
 const LoginPage = () => {
@@ -91,7 +90,9 @@ const LoginPage = () => {
 						Connexion avec Google
 					</button>
 					{error && (
-						<p className="text-center text-tomate">Erreur d&apos;authentification</p>
+						<p className="text-center text-tomate">
+							Erreur d&apos;authentification :{error}
+						</p>
 					)}
 				</div>
 			</div>

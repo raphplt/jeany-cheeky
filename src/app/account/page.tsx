@@ -1,26 +1,25 @@
 "use client";
 
-import Header from "@/components/Header";
 import ProtectedRoute from "@/components/ProtectedRoutes";
 import { auth, db } from "@/utils/firebase";
-import { deleteDoc, doc, getDoc } from "firebase/firestore";
+import { DocumentData, deleteDoc, doc, getDoc } from "firebase/firestore";
 import { redirect } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useAuthState } from "react-firebase-hooks/auth";
 
 export default function AccountPage() {
 	const [user] = useAuthState(auth);
-	const [userInfos, setUserInfos] = useState<any>(null);
+	const [userInfos, setUserInfos] = useState<DocumentData>();
 	const [confirmDelete, setConfirmDelete] = useState<boolean>(false);
 
 	useEffect(() => {
 		if (user) {
 			const userRef = doc(db, "users", user.uid);
 			getDoc(userRef).then((docSnap) => {
-				if (docSnap.exists()) {
+				if (docSnap.exists() && docSnap.data()) {
 					setUserInfos(docSnap.data());
 				} else {
-					console.log("No such document!");
+					console.error("No such document!");
 				}
 			});
 		}
@@ -74,7 +73,7 @@ export default function AccountPage() {
 				</div>
 				<div className="flex items-center gap-5">
 					<button
-						onClick={() => auth.signOut()}
+						onClick={signOut}
 						className="bg-primary text-white py-2 px-4 rounded-lg hover:bg-secondary"
 					>
 						Déconnexion

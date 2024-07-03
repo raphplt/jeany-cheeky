@@ -62,9 +62,9 @@ export default function Header() {
 			<div className="flex items-center justify-center gap-8 relative">
 				{user ? (
 					<>
-						<Link href="/scan" className="text-lg font-semibold hover:underline">
+						{/* <Link href="/scan" className="text-lg font-semibold hover:underline">
 							Scan
-						</Link>
+						</Link> */}
 						<Link href="/galerie" className="text-lg font-semibold hover:underline">
 							Galerie
 						</Link>

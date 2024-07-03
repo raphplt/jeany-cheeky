@@ -17,13 +17,23 @@ export default function Index() {
 				alt="home"
 				className="w-full h-screen object-cover absolute z-[-1] top-0"
 			/>
-			<div className="flex items-center flex-col justify-center py-14">
-				<h1 className="text-4xl font-bold my-5 text-white">Flash le QR Code</h1>
-				<QrReader
-					scannedResult={scannedResult}
-					setScannedResult={setScannedResult}
-				/>
-			</div>
+			{user ? (
+				<>
+					<h1 className="text-4xl font-bold my-5 text-white">Flash le QR Code</h1>
+					<div className="flex items-center flex-col justify-center py-14">
+						<QrReader
+							scannedResult={scannedResult}
+							setScannedResult={setScannedResult}
+						/>
+					</div>
+				</>
+			) : (
+				<div className="flex items-center justify-center h-screen">
+					<p className="text-2xl font-bold text-white">
+						Connectez-vous pour scanner un QR Code
+					</p>
+				</div>
+			)}
 		</main>
 	);
 }

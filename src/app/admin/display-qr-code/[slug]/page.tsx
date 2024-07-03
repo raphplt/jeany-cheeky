@@ -5,6 +5,7 @@ import React, { useEffect, useState } from "react";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/utils/firebase";
 import Link from "next/link";
+import AdminRoutes from "@/components/AdminRoutes";
 
 export default function DisplayQrCode({
 	params,
@@ -34,11 +35,13 @@ export default function DisplayQrCode({
 	}
 
 	return (
+		<AdminRoutes>
+
 		<main className="min-h-screen">
 			<Link
 				href="/admin/qr-code-list"
 				className="w-10/12 text-primary mx-auto font-semibold block my-3"
-			>
+				>
 				Back to list
 			</Link>
 
@@ -47,9 +50,9 @@ export default function DisplayQrCode({
 				<div className="flex gap-5 items-center">
 					{qrCode.imageUrl && (
 						<img
-							src={qrCode.imageUrl}
-							alt={qrCode.title}
-							className="w-[250px] h-fit"
+						src={qrCode.imageUrl}
+						alt={qrCode.title}
+						className="w-[250px] h-fit"
 						/>
 					)}
 					<div className="flex flex-col">
@@ -68,5 +71,6 @@ export default function DisplayQrCode({
 				)}
 			</div>
 		</main>
+				</AdminRoutes>
 	);
 }

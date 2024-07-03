@@ -10,7 +10,6 @@ import {
 	signInWithPopup,
 } from "firebase/auth";
 import { redirect } from "next/navigation";
-import Header from "@/components/Header";
 import Link from "next/link";
 
 export default function Register() {

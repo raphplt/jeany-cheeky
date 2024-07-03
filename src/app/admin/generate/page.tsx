@@ -2,12 +2,12 @@
 
 import React, { useState, useRef, useEffect } from "react";
 import { useQRCode } from "next-qrcode";
-import Header from "@/components/Header";
 import { getStorage, ref, uploadBytes, getDownloadURL } from "firebase/storage";
 import { collection, addDoc, doc, updateDoc } from "firebase/firestore";
 import { app, db } from "@/utils/firebase";
 import html2canvas from "html2canvas";
 import Link from "next/link";
+import AdminRoutes from "@/components/AdminRoutes";
 
 const storage = getStorage(app);
 
@@ -17,7 +17,7 @@ function App() {
 	const [show, setShow] = useState<boolean>(false);
 	const [title, setTitle] = useState<string>("");
 	const [description, setDescription] = useState<string>("");
-	const [image, setImage] = useState<any>(null);
+	const [image, setImage] = useState<File>();
 	const [qrCodeUrl, setQrCodeUrl] = useState<string>("");
 	const [docId, setDocId] = useState<string>("");
 	const [errors, setErrors] = useState<{
@@ -71,7 +71,7 @@ function App() {
 
 			setTitle("");
 			setDescription("");
-			setImage(null);
+			setImage(undefined);
 		} catch (error) {
 			console.error("Error generating QR code:", error);
 		}
@@ -82,7 +82,6 @@ function App() {
 			if (show && qrRef.current) {
 				try {
 					const canvas = await html2canvas(qrRef.current);
-					console.log(canvas);
 					const qrImage = canvas.toDataURL("image/png");
 					const qrImageBlob = await (await fetch(qrImage)).blob();
 
@@ -106,65 +105,67 @@ function App() {
 	}, [show, docId]);
 
 	return (
-		<main className="min-h-screen">
-			<div className="flex items-center justify-center flex-col gap-3">
-				<h1 className="text-2xl font-bold my-8 py-4">Génération de QR Code</h1>
-				<div className="flex flex-col gap-3 w-1/5 py-5">
-					<input
-						type="text"
-						value={title}
-						onChange={(e) => setTitle(e.target.value)}
-						placeholder="Titre..."
-						className="p-2 border-2 rounded-lg border-primary"
-					/>
-					{/* Étape 3: Afficher les messages d'erreur */}
-					{errors.title && <p className="text-red-500">{errors.title}</p>}
-					<textarea
-						value={description}
-						onChange={(e) => setDescription(e.target.value)}
-						placeholder="Description..."
-						className="p-2  rounded-lg border-2 border-primary"
-					/>
-					{errors.description && (
-						<p className="text-red-500">{errors.description}</p>
-					)}
-					<input
-						type="file"
-						onChange={(e: any) => setImage(e.target.files[0])}
-						className="p-2 border-2 rounded-lg border-primary"
-					/>
-					<button
-						onClick={handleGenerate}
-						className="p-2 bg-primary text-white rounded-lg hover:bg-secondary "
-					>
-						Générer le QR Code
-					</button>
+		<AdminRoutes>
+			<main className="min-h-screen">
+				<div className="flex items-center justify-center flex-col gap-3">
+					<h1 className="text-2xl font-bold my-8 py-4">Génération de QR Code</h1>
+					<div className="flex flex-col gap-3 w-1/5 py-5">
+						<input
+							type="text"
+							value={title}
+							onChange={(e) => setTitle(e.target.value)}
+							placeholder="Titre..."
+							className="p-2 border-2 rounded-lg border-primary"
+						/>
+						{/* Étape 3: Afficher les messages d'erreur */}
+						{errors.title && <p className="text-red-500">{errors.title}</p>}
+						<textarea
+							value={description}
+							onChange={(e) => setDescription(e.target.value)}
+							placeholder="Description..."
+							className="p-2  rounded-lg border-2 border-primary"
+						/>
+						{errors.description && (
+							<p className="text-red-500">{errors.description}</p>
+						)}
+						<input
+							type="file"
+							onChange={(e: any) => setImage(e.target.files[0])}
+							className="p-2 border-2 rounded-lg border-primary"
+						/>
+						<button
+							onClick={handleGenerate}
+							className="p-2 bg-primary text-white rounded-lg hover:bg-secondary "
+						>
+							Générer le QR Code
+						</button>
+					</div>
 				</div>
-			</div>
-			{show && qrCodeUrl && (
-				<div ref={qrRef} className="  my-4 w-fit block mx-auto">
-					<Canvas
-						text={qrCodeUrl}
-						options={{
-							errorCorrectionLevel: "M",
-							margin: 3,
-							scale: 4,
-							width: 200,
-							color: {
-								dark: "#000",
-								light: "#fff",
-							},
-						}}
-					/>
-				</div>
-			)}
-			<Link
-				href="/admin/qr-code-list"
-				className="text-lg font-bold text-center mx-auto my-4 w-fit block"
-			>
-				Voir la liste des QR Codes
-			</Link>
-		</main>
+				{show && qrCodeUrl && (
+					<div ref={qrRef} className="  my-4 w-fit block mx-auto">
+						<Canvas
+							text={qrCodeUrl}
+							options={{
+								errorCorrectionLevel: "M",
+								margin: 3,
+								scale: 4,
+								width: 200,
+								color: {
+									dark: "#000",
+									light: "#fff",
+								},
+							}}
+						/>
+					</div>
+				)}
+				<Link
+					href="/admin/qr-code-list"
+					className="text-lg font-bold text-center mx-auto my-4 w-fit block"
+				>
+					Voir la liste des QR Codes
+				</Link>
+			</main>
+		</AdminRoutes>
 	);
 }
 

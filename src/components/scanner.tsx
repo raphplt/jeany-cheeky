@@ -2,7 +2,6 @@
 
 import { useEffect, useRef, useState } from "react";
 import QrScanner from "qr-scanner";
-import { redirect } from "next/navigation";
 import Link from "next/link";
 
 interface QrReaderProps {
@@ -27,7 +26,6 @@ export default function QrReader({
 		if (!videoEl.current) return;
 
 		const onScanSuccess = (result: QrScanner.ScanResult) => {
-			console.log(result);
 			setScannedResult(result?.data);
 		};
 		const currentScanner = new QrScanner(videoEl.current, onScanSuccess, {
@@ -60,18 +58,6 @@ export default function QrReader({
 			);
 		}
 	}, [qrOn]);
-
-	function validateScan() {
-		alert("validateScan");
-		console.log("scannedResult", scannedResult);
-		// if (!scannedResult || typeof scannedResult !== "string") {
-		// 	alert("Aucun résultat scanné");
-		// 	return;
-		// }
-
-		redirect("/auth/login");
-		console.log("dsqdsqdsq", scannedResult);
-	}
 
 	return (
 		<>

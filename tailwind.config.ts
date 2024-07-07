@@ -17,9 +17,6 @@ const config: Config = {
 				dark: "#271616",
 				tomate: "#EB5A47",
 			},
-			fontFamily: {
-				sans: ['"Times New Roman"', "serif"],
-			},
 		},
 	},
 	plugins: [],

@@ -3,8 +3,8 @@
 
 import { useAuthState } from "react-firebase-hooks/auth";
 import { auth } from "@/utils/firebase";
-import QrReader from "@/components/Scanner";
 import { useState } from "react";
+import QrReader from "../components/Scanner";
 
 export default function Index() {
 	const [user] = useAuthState(auth);

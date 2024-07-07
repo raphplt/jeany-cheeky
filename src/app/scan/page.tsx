@@ -1,7 +1,7 @@
 "use client";
 
 import ProtectedRoute from "@/components/ProtectedRoutes";
-import QrReader from "@/components/Scanner";
+import QrReader from "../../components/Scanner";
 import { redirect } from "next/navigation";
 
 import { useEffect, useState } from "react";

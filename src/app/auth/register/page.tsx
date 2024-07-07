@@ -67,14 +67,14 @@ export default function Register() {
 						type="text"
 						value={username}
 						onChange={(e) => setUsername(e.target.value)}
-						placeholder="Nom d'utilisateur"
+						placeholder="Jeany"
 						className="p-2 border-2 border-primary rounded-lg"
 					/>
 					<input
 						type="email"
 						value={email}
 						onChange={(e) => setEmail(e.target.value)}
-						placeholder="Email"
+						placeholder="jeany-cheeky@gmail.com"
 						className="p-2 border-2 border-primary rounded-lg"
 					/>
 					<input
@@ -99,7 +99,10 @@ export default function Register() {
 					{error && (
 						<p className="text-center text-tomate">Erreur d&apos;authentification</p>
 					)}
-					<Link href="/login" className="text-primary hover:underline text-center">
+					<Link
+						href="/auth/login"
+						className="text-primary hover:underline text-center"
+					>
 						Déjà inscrit ? Connectez-vous
 					</Link>
 				</div>
